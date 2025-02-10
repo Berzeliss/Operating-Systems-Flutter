@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
   void jump() {
     preJump();  // reset everything to starting location when user clicks jump
     Timer.periodic(Duration(milliseconds: 20), ((timer) {
-      time += 0.03;
+      time += 0.02;
       height = -4.9*time*time + 5*time;
 
       if (initialHeight - height >= 0.99) {  // prevent character from "sinking"
