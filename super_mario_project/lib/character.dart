@@ -1,17 +1,44 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 
 class Character extends StatelessWidget {
-  const Character({super.key});
+  final String direction;
+  final running;
+
+  const Character({super.key, required this.direction, this.running});
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 50,
-      height: 75,
-      child: Image.asset(
-        'lib/image/stand.png',
-        fit: BoxFit.cover,
+    if (direction == 'right') {
+      return SizedBox(
+        width: 50,
+        height: 75,
+        child:  running ? Image.asset(
+          'lib/image/stand.png',
+          fit: BoxFit.cover,
+        )
+        : Image.asset(
+          'lib/image/run.png',
+          fit: BoxFit.cover,
         ),
-    );
+      );
+    } else {
+      return Transform(
+        alignment: Alignment.center,
+        transform: Matrix4.rotationY(pi),
+        child: SizedBox(
+          width: 50,
+          height: 75,
+          child: running ? Image.asset(
+          'lib/image/stand.png',
+          fit: BoxFit.cover,
+        )
+        : Image.asset(
+          'lib/image/run.png',
+          fit: BoxFit.cover,
+        ),
+        ),
+      );
+    }
   }
 }
