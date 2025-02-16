@@ -2,10 +2,10 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-
-class Jumping extends StatelessWidget {
+// to let the character face the right direction during jump asw ell
+class JumpingChar extends StatelessWidget {
   final String direction;
-  const Jumping({super.key, required this.direction});
+  const JumpingChar({super.key, required this.direction});
 
   @override
   Widget build(BuildContext context) {
