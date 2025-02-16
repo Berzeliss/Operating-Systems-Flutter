@@ -64,6 +64,7 @@ flutter:
     - lib/image/run.png
     - lib/image/jump.png
     - lib/image/skeleton.png
+    - lib/image/coin.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 

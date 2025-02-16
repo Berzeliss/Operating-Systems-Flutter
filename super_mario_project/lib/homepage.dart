@@ -7,6 +7,7 @@ import 'package:super_mario_project/button.dart';
 import 'package:super_mario_project/character.dart';
 import 'package:super_mario_project/jumpingChar.dart';
 import 'package:super_mario_project/skeleton.dart'; 
+import 'package:super_mario_project/coin.dart'; 
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -21,6 +22,8 @@ class _HomePageState extends State<HomePage> {
   static double charY = 1;
   static double skeleX = 0.5;
   static double skeleY = 1;
+  double coinX = 0;
+  double coinY = 0.7;
   double time = 0;
   double height = 0;
   double initialHeight = charY;
@@ -29,9 +32,10 @@ class _HomePageState extends State<HomePage> {
   bool jumping = false;
   var font = GoogleFonts.pressStart2p(color: Colors.white, fontSize: 25);
   double life = 5;
-  double score = 0;
+  double coin = 0;
 
-  void checkIfMeetSkele() {
+  void checkSkeleCoin() {
+    // skeleton collision
     if ((charX-skeleX).abs()<0.05 && (charY-skeleY).abs()<0.05) {
       setState(() {
         skeleX = 100;  // set out of 1 to remove it
@@ -42,6 +46,20 @@ class _HomePageState extends State<HomePage> {
       Future.delayed(Duration(seconds: 2), () {
         setState(() {
           skeleX = -0.8 + (1.6 * (Random().nextDouble()));
+        });
+      });
+    }
+    // coin collision
+    else if ((charX-coinX).abs()<0.05 && (charY-coinY).abs()<0.05) {
+      setState(() {
+        coinX = 100;  // set out of 1 to remove it
+        coin += 1;
+      });
+
+      // Respawn
+      Future.delayed(Duration(seconds: 2), () {
+        setState(() {
+          coinX = -0.8 + (1.6 * (Random().nextDouble()));
         });
       });
     }
@@ -71,16 +89,16 @@ class _HomePageState extends State<HomePage> {
             charY = initialHeight - height; // note: not plus because 1 is bottom and -1 is up
           });
         }
-
+        checkSkeleCoin();
       }));
     }
   }
 
   void moveRight() {
     direction = "right";
-    checkIfMeetSkele();
+    checkSkeleCoin();
     Timer.periodic(Duration(milliseconds: 50), (timer) {
-      checkIfMeetSkele();
+      checkSkeleCoin();
       if(Arrow.holdingButton == true && charX<0.98) {
         setState(() {
           charX += 0.02;
@@ -94,9 +112,9 @@ class _HomePageState extends State<HomePage> {
 
   void moveLeft() {
     direction = "left";
-    checkIfMeetSkele();
+    checkSkeleCoin();
      Timer.periodic(Duration(milliseconds: 50), (timer) {
-      checkIfMeetSkele();
+      checkSkeleCoin();
       if(Arrow.holdingButton == true && charX>-0.98) {
         setState(() {
           charX -= 0.02;
@@ -112,12 +130,15 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    checkSkeleCoin();
     Timer.periodic(Duration(milliseconds: 100), (timer) {
+      checkSkeleCoin();
       if (skeleX != 100) {
         setState(() {
           if (skeleX > charX) {
             skeleX -= 0.01;
-          } else {
+          } 
+          else if (skeleX < charX) {
             skeleX += 0.01;
           }
         });
@@ -128,7 +149,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     // reset when game over
-    if (life <= 0) {
+    if (life == 0) {
       return Scaffold(
         backgroundColor: Colors.black,
         body: Center(
@@ -144,12 +165,40 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () {
                   setState(() {
                     life = 5;
-                    score = 0;
+                    coin = 0;
                     charX = -0.5;
                     skeleX = 0.5;
                   });
                 },
                 child: Text("Restart", style: font),
+              )
+            ],
+          ),
+        ),
+      );
+    }
+    else if (coin == 5) {
+      return Scaffold(
+        backgroundColor: const Color.fromARGB(255, 169, 194, 32),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("You Win!", style: font),
+              SizedBox(height: 20),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 169, 194, 32)
+                ),
+                onPressed: () {
+                  setState(() {
+                    life = 5;
+                    coin = 0;
+                    charX = -0.5;
+                    skeleX = 0.5;
+                  });
+                },
+                child: Text("Play again?", style: font),
               )
             ],
           ),
@@ -177,6 +226,10 @@ class _HomePageState extends State<HomePage> {
                   alignment: Alignment(skeleX, skeleY),
                   child: Skeleton()
                 ),
+                Container(
+                  alignment: Alignment(coinX, coinY),
+                  child: Coin()
+                ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
@@ -184,7 +237,7 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Column(children: [Text("Life", style: font,), SizedBox(height: 8), Text("$life", style: font,)]),
                       Column(children: [Text("Level", style: font,), SizedBox(height: 8), Text("1-1", style: font,)]),
-                      Column(children: [Text("Score", style: font,), SizedBox(height: 8), Text("$score", style: font,)])
+                      Column(children: [Text("Coins", style: font,), SizedBox(height: 8), Text("$coin", style: font,)])
                     ],
                   ),
                 )
