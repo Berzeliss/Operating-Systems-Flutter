@@ -130,6 +130,7 @@ class _HomePageState extends State<HomePage> {
     // reset when game over
     if (life <= 0) {
       return Scaffold(
+        backgroundColor: Colors.black,
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -137,6 +138,9 @@ class _HomePageState extends State<HomePage> {
               Text("GAME OVER", style: font),
               SizedBox(height: 20),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black
+                ),
                 onPressed: () {
                   setState(() {
                     life = 5;
@@ -145,7 +149,7 @@ class _HomePageState extends State<HomePage> {
                     skeleX = 0.5;
                   });
                 },
-                child: Text("Restart"),
+                child: Text("Restart", style: font),
               )
             ],
           ),
