@@ -110,6 +110,32 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    // reset when game over
+    if (life <= 0) {
+      return Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("GAME OVER", style: font),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    life = 5;
+                    score = 0;
+                    charX = -0.5;
+                    skeleX = 0.5;
+                  });
+                },
+                child: Text("Restart"),
+              )
+            ],
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       body: Column(
         children: [
