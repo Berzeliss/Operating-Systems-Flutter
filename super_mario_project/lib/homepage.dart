@@ -81,7 +81,7 @@ class _HomePageState extends State<HomePage> {
     checkIfMeetSkele();
     Timer.periodic(Duration(milliseconds: 50), (timer) {
       checkIfMeetSkele();
-      if(Arrow.holdingButton == true) {
+      if(Arrow.holdingButton == true && charX<0.98) {
         setState(() {
           charX += 0.02;
           running = !running;
@@ -97,7 +97,7 @@ class _HomePageState extends State<HomePage> {
     checkIfMeetSkele();
      Timer.periodic(Duration(milliseconds: 50), (timer) {
       checkIfMeetSkele();
-      if(Arrow.holdingButton == true) {
+      if(Arrow.holdingButton == true && charX>-0.98) {
         setState(() {
           charX -= 0.02;
           running = !running;
