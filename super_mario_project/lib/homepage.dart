@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:super_mario_project/button.dart';
 import 'package:super_mario_project/character.dart';
 import 'package:super_mario_project/jumpingChar.dart'; 
@@ -22,6 +23,7 @@ class _HomePageState extends State<HomePage> {
   String direction = "right";
   bool running = false;
   bool jumping = false;
+  var font = GoogleFonts.pressStart2p(color: Colors.white, fontSize: 25);
 
   void preJump() {
     time = 0;
@@ -88,14 +90,29 @@ class _HomePageState extends State<HomePage> {
           // Sky part
           Expanded(  
             flex: 4,
-            child: Container(
-              color: const Color.fromARGB(255, 39, 122, 225),
-              child: AnimatedContainer(
-                duration: Duration(milliseconds: 0),
-                alignment: Alignment(charX, charY),
-                child: jumping ? JumpingChar(direction: direction,) : Character(direction: direction, running: running,)
-              ),
-            ),
+            child: Stack(  // stack: children will render in order, from topleft to bottom right
+              children: [
+                Container(
+                  color: const Color.fromARGB(255, 39, 122, 225),
+                  child: AnimatedContainer(
+                    duration: Duration(milliseconds: 0),
+                    alignment: Alignment(charX, charY),
+                    child: jumping ? JumpingChar(direction: direction,) : Character(direction: direction, running: running,)
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Column(children: [Text("Score", style: font,), SizedBox(height: 8), Text("00000", style: font,)]),
+                      Column(children: [Text("Level", style: font,), SizedBox(height: 8), Text("1-1", style: font,)]),
+                      Column(children: [Text("Time", style: font,), SizedBox(height: 8), Text("00000", style: font,)])
+                    ],
+                  ),
+                )
+              ],
+            )
           ),
           // Ground part
           Expanded(  
