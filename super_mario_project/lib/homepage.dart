@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:super_mario_project/button.dart';
 import 'package:super_mario_project/character.dart';
-import 'package:super_mario_project/jumpingchar.dart'; 
+import 'package:super_mario_project/jumpingChar.dart'; 
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
         setState(() {
           charY = 1;
         });
-        timer.cancel();
+        timer.cancel();  // so the character doesn't jump carzily fast
       } else {
         setState(() {
           charY = initialHeight - height; // note: not plus because 1 is bottom and -1 is up
@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
           running = !running;
         });
       } else {
-        timer.cancel();
+        timer.cancel();  // stops character when user doesn't hold button
       }
     });
   }
@@ -93,13 +93,7 @@ class _HomePageState extends State<HomePage> {
               child: AnimatedContainer(
                 duration: Duration(milliseconds: 0),
                 alignment: Alignment(charX, charY),
-                child: jumping ? Jumping(
-                  direction: direction,
-                ) 
-                              : Character(
-                                  direction: direction,
-                                  running: running,
-                                )
+                child: jumping ? JumpingChar(direction: direction,) : Character(direction: direction, running: running,)
               ),
             ),
           ),
