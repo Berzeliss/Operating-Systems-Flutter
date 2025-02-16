@@ -108,6 +108,23 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  // let skeleton moves towards the player
+  @override
+  void initState() {
+    super.initState();
+    Timer.periodic(Duration(milliseconds: 100), (timer) {
+      if (skeleX != 100) {
+        setState(() {
+          if (skeleX > charX) {
+            skeleX -= 0.01;
+          } else {
+            skeleX += 0.01;
+          }
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // reset when game over
