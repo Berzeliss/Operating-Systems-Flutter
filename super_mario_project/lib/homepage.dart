@@ -60,6 +60,7 @@ class _HomePageState extends State<HomePage> {
       Future.delayed(Duration(seconds: 2), () {
         setState(() {
           coinX = -0.8 + (1.6 * (Random().nextDouble()));
+          coinY = -0.7 + (1.6 * (Random().nextDouble()));
         });
       });
     }
