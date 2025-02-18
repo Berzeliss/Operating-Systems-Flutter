@@ -6,7 +6,7 @@ class Skeleton extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 40,
+      height: 80,
       width: 40,
       child: Image.asset("lib/image/skeleton.png", fit: BoxFit.cover),
     );
